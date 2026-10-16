@@ -2,13 +2,13 @@ import os
 import json
 
 from data import get_guild_interaction_count, get_registered_guild_owner, set_guild_interaction_count, register_guild, guild_is_registered, insert_error_log, update_registered_guild_owner, get_model_choice, get_user_api_keys
-from kv import get_kv, set_kv
 from discord.messages import Messages
 from ai.agent import Agent
 from exception import BotException
 from discord.guilds import Guilds
 from discord.utils import Utils
 from ai.direct import generate_response_to_image
+from ai.models import determine_model
 
 class Events:
     @staticmethod
@@ -20,7 +20,6 @@ class Events:
 
         match event_type:
             case "READY":
-                set_kv("guild_count", len(event_data["guilds"]))
                 print(f"Bot is ready in {len(event_data['guilds'])} guilds.")
                 return
 
@@ -40,13 +39,6 @@ class Events:
                 set_guild_interaction_count(guild_id, interaction_count + 1)
 
                 owner_id = get_registered_guild_owner(guild_id)
-
-
-                api_keys = get_user_api_keys(owner_id) if owner_id else None
-               
-                if not api_keys:
-                    await Messages.create_message(channel_id, ":bangbang: No API keys are configured for this server. If you are the owner, please configure your API keys in your [account settings](https://agenti.bot/manage).")
-                    return
                 
                 try:
                     if len(event_data["attachments"]) > 0:
@@ -75,7 +67,7 @@ class Events:
                     return
                 except Exception as e:
                     insert_error_log(guild_id, author_id, event_data["content"], str(e))
-                    await Messages.create_message(channel_id, ":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                    await Messages.create_message(channel_id, ":bangbang: Something went wrong.")
                     return
                 
             case "GUILD_CREATE":
@@ -87,21 +79,13 @@ class Events:
 
                     system_channel_id = event_data["system_channel_id"]
 
-                    set_kv("guild_count", get_kv("guild_count") + 1)
-
                     await Messages.create_message(system_channel_id, None, [{
                         "title": ":wave: Thank you for inviting me to your server!",
-                        "description": "Check out the [About page](https://www.agenti.bot/about) to get started.",
+                        "description": "Ask me what I can do, to get started.",
                         "color": Messages.embed_color
                     }], [{
                         "type": 1,
                         "components": [
-                            {
-                                "type": 2,
-                                "label": "Website",
-                                "style": 5,
-                                "url": "https://www.agenti.bot"
-                            },
                             {
                                 "type": 2,
                                 "label": "Donate",
@@ -116,10 +100,6 @@ class Events:
 
             case "GUILD_UPDATE":
                 update_registered_guild_owner(event_data["guild_id"], event_data["owner_id"])
-                return
-            
-            case "GUILD_DELETE":
-                set_kv("guild_count", get_kv("guild_count") - 1)
                 return
 
             case "GUILD_MEMBER_REMOVE":
