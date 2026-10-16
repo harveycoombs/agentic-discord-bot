@@ -5,7 +5,7 @@ from data import get_guild_interaction_count, get_registered_guild_owner, set_gu
 from kv import get_kv, set_kv
 from discord.messages import Messages
 from ai.agent import Agent
-from exception import AgentiBotException
+from exception import BotException
 from discord.guilds import Guilds
 from discord.utils import Utils
 from ai.direct import generate_response_to_image
@@ -21,7 +21,7 @@ class Events:
         match event_type:
             case "READY":
                 set_kv("guild_count", len(event_data["guilds"]))
-                print(f"AgentiBot is ready in {len(event_data['guilds'])} guilds.")
+                print(f"Bot is ready in {len(event_data['guilds'])} guilds.")
                 return
 
             case "MESSAGE_CREATE":
@@ -70,7 +70,7 @@ class Events:
                             await Messages.create_message(channel_id, response[x:x+2000])
                     else:
                         await Messages.create_message(channel_id, response)
-                except AgentiBotException as ve:
+                except BotException as ve:
                     await Messages.create_message(channel_id, str(ve))
                     return
                 except Exception as e:

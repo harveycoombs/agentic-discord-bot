@@ -30,7 +30,7 @@ Run the command `python3 -m venv .venv` and then either `source .venv/bin/activa
 Once inside the virtual environment, run the command `pip install -r requirements.txt`.
 
 ### 4. Running the bot
-Once you have completed the above, run `python src/agentibot.py` from the project root to start.
+Once you have completed the above, run `python src/bot.py` from the project root to start.
 
 Thank you for using my bot! Please consider donating by [clicking here](https://buymeacoffee.com/harveycoombs).
 

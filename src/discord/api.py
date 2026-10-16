@@ -1,7 +1,7 @@
 import os
 import aiohttp
 
-from exception import AgentiBotException
+from exception import BotException
 
 class DiscordAPI:
     BASE_URL = "https://discord.com/api/"
@@ -20,13 +20,13 @@ class DiscordAPI:
             async with session.get(f"{DiscordAPI.BASE_URL}{endpoint}", headers=headers) as response:
                 match response.status:
                     case 429:
-                        raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                        raise BotException(":warning: You are being rate limited. Please try again later.")
                     case 403:
-                        raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                        raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                     case 400 | 404:
-                        raise AgentiBotException(await response.text())
+                        raise BotException(await response.text())
                     case 500 | 503:
-                        raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                        raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                     case 200 | 201:
                         try:
                             return await response.json()
@@ -48,13 +48,13 @@ class DiscordAPI:
                 async with session.post(f"{DiscordAPI.BASE_URL}{endpoint}", json=payload, headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()
@@ -64,13 +64,13 @@ class DiscordAPI:
                 async with session.post(f"{DiscordAPI.BASE_URL}{endpoint}", headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()
@@ -91,13 +91,13 @@ class DiscordAPI:
             async with session.patch(f"{DiscordAPI.BASE_URL}{endpoint}", json=payload, headers=headers) as response:
                 match response.status:
                     case 429:
-                        raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                        raise BotException(":warning: You are being rate limited. Please try again later.")
                     case 403:
-                        raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                        raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                     case 400 | 404:
-                        raise AgentiBotException(await response.text())
+                        raise BotException(await response.text())
                     case 500 | 503:
-                        raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                        raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                     case 200 | 201:
                         try:
                             return await response.json()
@@ -119,13 +119,13 @@ class DiscordAPI:
                 async with session.put(f"{DiscordAPI.BASE_URL}{endpoint}", json=payload, headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()
@@ -135,13 +135,13 @@ class DiscordAPI:
                 async with session.put(f"{DiscordAPI.BASE_URL}{endpoint}", headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()
@@ -163,13 +163,13 @@ class DiscordAPI:
                 async with session.delete(f"{DiscordAPI.BASE_URL}{endpoint}", json=payload, headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()
@@ -179,13 +179,13 @@ class DiscordAPI:
                 async with session.delete(f"{DiscordAPI.BASE_URL}{endpoint}", headers=headers) as response:
                     match response.status:
                         case 429:
-                            raise AgentiBotException(":warning: You are being rate limited. Please try again later.")
+                            raise BotException(":warning: You are being rate limited. Please try again later.")
                         case 403:
-                            raise AgentiBotException(":no_entry_sign: I do not have permission to perform this action.")
+                            raise BotException(":no_entry_sign: I do not have permission to perform this action.")
                         case 400 | 404:
-                            raise AgentiBotException(await response.text())
+                            raise BotException(await response.text())
                         case 500 | 503:
-                            raise AgentiBotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
+                            raise BotException(":bangbang: Something went wrong. If this issue persists, [Contact Support](https://www.agenti.bot/contact) for further assistance.")
                         case 200 | 201:
                             try:
                                 return await response.json()

@@ -1,4 +1,4 @@
-# AgentiBot ~ agenti.bot ~ developed by Harvey Coombs ~ 2021-2026
+# Agentic Discord Bot ~ developed by Harvey Coombs ~ 2021-2026
 import asyncio
 from discord.gateway import Gateway
 

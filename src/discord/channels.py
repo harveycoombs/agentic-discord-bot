@@ -1,5 +1,5 @@
 from discord.api import DiscordAPI
-from exception import AgentiBotException
+from exception import BotException
 
 class Channels:
     @staticmethod
@@ -8,7 +8,7 @@ class Channels:
             channels = await DiscordAPI.get(f"guilds/{guild_id}/channels")
             return channels
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to retrieve channels.")
+            raise BotException(":bangbang: Unable to retrieve channels.")
 
     @staticmethod
     async def get_channel_categories(guild_id):
@@ -16,7 +16,7 @@ class Channels:
             categories = await DiscordAPI.get(f"guilds/{guild_id}/channels?type=4")
             return categories
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to retrieve channel categories.")
+            raise BotException(":bangbang: Unable to retrieve channel categories.")
 
     @staticmethod
     async def create_channel(guild_id, channel_name, channel_type=0, category_name=None):
@@ -33,7 +33,7 @@ class Channels:
             return response["id"]
         except Exception as ex:
             print(ex)
-            raise AgentiBotException(":bangbang: Unable to create channel.")
+            raise BotException(":bangbang: Unable to create channel.")
         
     @staticmethod
     async def rename_channel(channel_id, new_name):
@@ -42,14 +42,14 @@ class Channels:
                 "name": new_name
             })
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to rename channel.")
+            raise BotException(":bangbang: Unable to rename channel.")
 
     @staticmethod
     async def delete_channel(channel_id):
         try:
             await DiscordAPI.delete(f"channels/{channel_id}")
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to delete channel.")
+            raise BotException(":bangbang: Unable to delete channel.")
 
     @staticmethod
     async def create_invite(channel_id, age, temporary):
@@ -60,11 +60,11 @@ class Channels:
             })
             return invitation["code"]
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to create channel invite.")
+            raise BotException(":bangbang: Unable to create channel invite.")
 
     @staticmethod
     async def delete_invite(channel_id, invite_code):
         try:
             await DiscordAPI.delete(f"channels/{channel_id}/invites/{invite_code}")
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to delete channel invite.")
+            raise BotException(":bangbang: Unable to delete channel invite.")

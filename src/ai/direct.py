@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from exception import AgentiBotException
+from exception import BotException
 
 def generate_response_to_image(openai_api_key: str, xai_api_key: str, google_api_key: str, anthropic_api_key: str, model: str, prompt: str, attachment_url: str) -> str:
      openai_client = OpenAI(api_key=openai_api_key)
@@ -11,7 +11,7 @@ def generate_response_to_image(openai_api_key: str, xai_api_key: str, google_api
      client = openai_client if model.startswith("gpt-") else xai_client if model.startswith("grok-") else gemini_client if model.startswith("gemini-") else anthropic_client if model.startswith("claude-") else None
      
      if not client:
-          raise AgentiBotException(f"Unable to determine provided model '{model}'.")
+          raise BotException(f"Unable to determine provided model '{model}'.")
      
      response = client.responses.create(
           model=model,

@@ -2,7 +2,7 @@ import os
 import asyncio
 
 from discord.api import DiscordAPI
-from exception import AgentiBotException
+from exception import BotException
 
 class Messages:
     embed_color = os.getenv("EMBED_COLOR")
@@ -13,7 +13,7 @@ class Messages:
             messages = await DiscordAPI.get(f"channels/{channel_id}/messages?limit={limit}")
             return messages
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to retrieve messages.")
+            raise BotException(":bangbang: Unable to retrieve messages.")
 
     @staticmethod    
     async def create_message(channel_id, content, embeds=None, components=None):
@@ -31,7 +31,7 @@ class Messages:
             })
         except Exception as e:
             print(e)
-            raise AgentiBotException(f":bangbang: Unable to create message ({e}).")
+            raise BotException(f":bangbang: Unable to create message ({e}).")
 
     @staticmethod
     async def update_message(channel_id, message_id, content=None, embeds=None):
@@ -41,14 +41,14 @@ class Messages:
                 "embeds": embeds or []
             })
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to update message.")
+            raise BotException(":bangbang: Unable to update message.")
 
     @staticmethod
     async def delete_message(channel_id, message_id):
         try:
             await DiscordAPI.delete(f"channels/{channel_id}/messages/{message_id}")
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to delete message.")
+            raise BotException(":bangbang: Unable to delete message.")
 
     @staticmethod
     async def bulk_delete_messages(channel_id, amount):
@@ -59,4 +59,4 @@ class Messages:
                 await DiscordAPI.delete(f"channels/{channel_id}/messages/{messages[x]['id']}")
                 await asyncio.sleep(0.75)
         except Exception:
-            raise AgentiBotException(":bangbang: Unable to bulk delete messages.")
+            raise BotException(":bangbang: Unable to bulk delete messages.")

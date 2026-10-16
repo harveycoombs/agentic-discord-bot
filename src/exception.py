@@ -1,2 +1,2 @@
-class AgentiBotException(Exception):
+class BotException(Exception):
     pass
