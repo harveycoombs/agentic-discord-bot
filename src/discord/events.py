@@ -28,33 +28,21 @@ class Events:
                 channel_id = event_data["channel_id"]
                 guild_id = event_data["guild_id"]
 
-                model = get_model_choice(guild_id)
-
                 if author_id == os.getenv("APPLICATION_ID") or os.getenv("APPLICATION_ID") not in [mention["id"] for mention in event_data["mentions"]]:
                     return
 
                 guild_id = event_data["guild_id"]
 
-                interaction_count = get_guild_interaction_count(guild_id)
-                set_guild_interaction_count(guild_id, interaction_count + 1)
-
-                owner_id = get_registered_guild_owner(guild_id)
-                
                 try:
                     if len(event_data["attachments"]) > 0:
                         response = generate_response_to_image(
-                             api_keys["openai_api_key"],
-                             api_keys["xai_api_key"],
-                             api_keys["google_api_key"],
-                             api_keys["anthropic_api_key"],
-                             model, 
                              event_data["content"].replace(f"<@!{os.getenv('APPLICATION_ID')}>", "").strip(), 
                              event_data["attachments"][0]["url"]
                         )
                         await Messages.create_message(channel_id, response[:2000])
                         return
 
-                    agent = Agent(context=event_data, model=model, api_keys=api_keys)
+                    agent = Agent(context=event_data)
                     response = await agent.respond(event_data["content"].replace(f"<@!{os.getenv('APPLICATION_ID')}>", "").strip())
 
                     if len(response) > 2000:
